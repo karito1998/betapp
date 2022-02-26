@@ -26,4 +26,4 @@ samples, guidance on mobile development, and a full API reference.
         repository -> scripts de llamados a la apis
         colors -> archivo con colores
         main -> programa principal
-3. En el pubspec, poner los recursos a usar
+3. En el pubspec, poner los recursos y dependencias a usar

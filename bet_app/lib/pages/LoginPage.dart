@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:bet_app/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:bet_app/repository/LoginProcess.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -33,7 +35,7 @@ class _LoginPage extends State<LoginPage> {
                 end: Alignment.bottomRight,
                 colors: [purple, white])),
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: true,
             backgroundColor: Colors.transparent,
             body: SafeArea(
                 minimum: EdgeInsets.all(10),
@@ -41,10 +43,12 @@ class _LoginPage extends State<LoginPage> {
                     onTap: () {
                       FocusScope.of(context).unfocus();
                     },
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                    child: //ListView(children: [
+                        SingleChildScrollView(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
                           //Campana
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -55,7 +59,11 @@ class _LoginPage extends State<LoginPage> {
                               ]),
 
                           //Imagen
-                          Image.asset("betLogo.png"),
+                          //Image.asset("assets/betLogo.png"),
+                          SvgPicture.asset(
+                            "assets/betLogoIcon.svg",
+                            height: MediaQuery.of(context).size.width * 0.5,
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -167,7 +175,9 @@ class _LoginPage extends State<LoginPage> {
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                             primary: purple),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          LoginProcess("a", "b");
+                                        },
                                         child: Padding(
                                             padding: EdgeInsets.all(5),
                                             child: Text(
@@ -191,7 +201,7 @@ class _LoginPage extends State<LoginPage> {
                                 fontWeight: FontWeight.bold, color: purple),
                           ),
                           //Texto
-                        ])))));
+                        ]))))));
   }
 }
 
