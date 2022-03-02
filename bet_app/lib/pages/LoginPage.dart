@@ -1,5 +1,7 @@
+import 'dart:html';
 import 'dart:io';
 
+import 'package:bet_app/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:bet_app/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  final _scaffKey = GlobalKey<ScaffoldState>();
   late TextEditingController emailTextController;
   late TextEditingController passTextController;
   late FocusNode emailFocus;
@@ -35,6 +38,7 @@ class _LoginPage extends State<LoginPage> {
                 end: Alignment.bottomRight,
                 colors: [purple, white])),
         child: Scaffold(
+            key: _scaffKey,
             resizeToAvoidBottomInset: true,
             backgroundColor: Colors.transparent,
             body: SafeArea(
@@ -82,7 +86,7 @@ class _LoginPage extends State<LoginPage> {
                                   TextFormField(
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: darkGreen,
+                                      color: purple,
                                     ),
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
@@ -132,7 +136,7 @@ class _LoginPage extends State<LoginPage> {
                                     obscureText: true,
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: darkGreen,
+                                      color: purple,
                                     ),
                                     decoration: InputDecoration(
                                       labelText: "Contraseña",
@@ -176,7 +180,15 @@ class _LoginPage extends State<LoginPage> {
                                         style: ElevatedButton.styleFrom(
                                             primary: purple),
                                         onPressed: () {
-                                          LoginProcess("a", "b");
+                                          LoginProcess(emailTextController.text,
+                                                  passTextController.text)
+                                              .then((loginData) {
+                                            if (loginData.loginAuth) {
+                                              _goToHomePage(context);
+                                            } else {
+                                              _showMessageError(context);
+                                            }
+                                          });
                                         },
                                         child: Padding(
                                             padding: EdgeInsets.all(5),
@@ -203,8 +215,22 @@ class _LoginPage extends State<LoginPage> {
                           //Texto
                         ]))))));
   }
+
+  void _showMessageError(BuildContext context) {
+    SnackBar snackbar = SnackBar(
+      backgroundColor: purple,
+      content: Text("Datos incorrectos"),
+    );
+    // ignore: deprecated_member_use
+    _scaffKey.currentState!.showSnackBar(snackbar);
+  }
 }
 
 void requestFocus(BuildContext context, FocusNode focusNode) {
   FocusScope.of(context).requestFocus(focusNode);
+}
+
+void _goToHomePage(BuildContext context) {
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => HomePage()));
 }

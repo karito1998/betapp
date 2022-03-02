@@ -26,3 +26,5 @@ samples, guidance on mobile development, and a full API reference.
         colors -> archivo con colores
         main -> programa principal
 3. En el pubspec, poner los recursos a usar
+4. Cada vez que se agregue un recurso -> pub get
+5. Si se desea probar una vista especifica, se puede dejar en la ruta del home

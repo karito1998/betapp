@@ -3,11 +3,12 @@ import 'package:bet_app/model/LoginData.dart';
 import 'package:http/http.dart' as http;
 
 /**
- * Peticion de login de la app y login de keycloak
+ * Peticion de login de la app 
  */
 
 Future<LoginData> LoginProcess(String user, String password) async {
   LoginData loginDataModel = new LoginData();
+  print("Login process");
   try {
     //login oauth
     var url = Uri.parse('http://localhost:8090/oauth/token');
@@ -18,25 +19,21 @@ Future<LoginData> LoginProcess(String user, String password) async {
       "client_id": "cupo_client",
       "client_secret": "cupo_secret",
       "grant_type": "password",
-      "username": "karol",
-      "password": "1234",
+      "username": user,
+      "password": password,
     });
-    // if (response.statusCode == 200) {
     final token = jsonDecode(response.body);
-    print(token['body']);
-    /*    //print(loginData['body']);
-          if (loginData["header"]["codigoError"] == null) {
-            loginDataModel.setEmail(user);
-            loginDataModel.setMerchantCode(loginData['body']['merchantCode']);
-            loginDataModel.setOperatorCode(loginData['body']['operatorCode']);
-            loginDataModel.setOperatorPin(loginData['body']['pin']);
-            loginDataModel.setRol(loginData['body']['rol']);
-            loginDataModel.setToken(token['body']);
-          }
-        } else {
-          loginDataModel.setMessage("Invalid Login");
-        }
-      */
+
+    if (response.statusCode == 200) {
+      print("Login Succesful");
+      loginDataModel.setToken(token['access_token']);
+      loginDataModel.setEmail(user);
+      loginDataModel.setLoginAuth(true);
+    } else {
+      print(token['error']);
+      loginDataModel.setEmail(user);
+      loginDataModel.setLoginAuth(false);
+    }
   } catch (e, s) {
     print("Exception $e");
     print("StackTrace $s");

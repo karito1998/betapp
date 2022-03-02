@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bet_app/pages/LoginPage.dart';
+import 'package:bet_app/pages/HomePage.dart';
 
 void main() {
   runApp(MyApp());
